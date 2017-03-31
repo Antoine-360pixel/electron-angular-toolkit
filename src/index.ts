@@ -13,8 +13,8 @@ import * as chalk from 'chalk';
 import 'core-js';
 class Main {
 
-    private static configPath = path.join(__dirname, '..', '..', '@angular','cli', 'models', 'webpack-configs','common.js');
-    private static copyConfigPath = path.join(__dirname, '..', '..', '@angular','cli', 'models', 'webpack-configs','common.original.js');
+    private static configPath = path.join(__dirname, '..', '..', '@angular', 'cli', 'models', 'webpack-configs','common.js');
+    private static copyConfigPath = path.join(__dirname, '..', '..', '@angular', 'cli', 'models', 'webpack-configs','original.js');
 
     private static fileExists(path: string): Promise<boolean> {
         return fs.exists(path);
@@ -156,7 +156,8 @@ class Main {
             let indexHtmlPath = path.join('src', 'index.html');
             let indexHtml = await fs.readFile(indexHtmlPath, 'utf-8');
             let updatedIndexHtml = indexHtml.replace('<base href="/">', '<base href="./">');
-            await fs.writeFile(indexHtmlPath, updatedIndexHtml);
+            let updatedIndexHtmlAssets = indexHtml.replace('"assets/">', path.join(__dirname, 'assets/'));
+            await fs.writeFile(indexHtmlPath, updatedIndexHtml, updatedIndexHtmlAssets);
             console.log(chalk.green('finished preparing index.html'));
         }
         catch (error) {
